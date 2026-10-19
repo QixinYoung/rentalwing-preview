@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>翼起租 RENTALWING · 影视器材租赁管理系统</title>
+  <meta name="description" content="影视器材租赁店的管理系统：录单、出入库清点、对账交给系统，少请一个库管；尾款一笔不漏，客户问价当场报出。电脑手机都能用。">
+  <meta name="theme-color" content="#161616">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="翼起租 RENTALWING · 影视器材租赁管理系统">
+  <meta property="og:description" content="少请一个库管，不漏一笔尾款。录单、清点全都交给系统。">
+  <meta property="og:image" content="assets/img/og.png">
+  <link rel="preload" href="assets/fonts/montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- 首屏那张图先拉（按屏幕挑大小图；不认 AVIF 的浏览器会跳过这两行，照常按 <picture> 拉 WebP） -->
+  <link rel="preload" href="assets/shots/order-detail.avif" as="image" type="image/avif" media="(min-width: 641px)">
+  <link rel="preload" href="assets/shots/order-detail-sm.avif" as="image" type="image/avif" media="(max-width: 640px)">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳到正文</a>
+
+<!-- 线条图标（只定义一次，下面用 <use> 引用） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-crew" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .7 3 2.8 3 6"/></symbol>
+    <symbol id="i-sheet" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.6-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/><path d="M12 12v5M9.5 14.5 12 12l2.5 2.5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  </defs>
+</svg>
+
+<header class="nav" data-nav>
+  <div class="wrap nav__inner">
+    <a class="nav__logo" href="./" aria-label="翼起租 RENTALWING 首页">
+      <img src="assets/img/rentalwing-logo-inline-white.svg" alt="翼起租 RENTALWING" width="192" height="32">
+    </a>
+    <nav class="nav__links" id="nav-links" aria-label="页面导航">
+      <a href="#why">算笔账</a>
+      <a href="#flow">订单</a>
+      <a href="#money">回款</a>
+      <a href="#quote">报价</a>
+      <a href="#next">即将推出</a>
+    </nav>
+    <a class="btn btn--primary btn--sm nav__cta" href="#trial" data-trial>免费试用</a>
+    <button class="nav__toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="打开菜单" data-nav-toggle>
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 首屏：为什么买——省人、回款（订单是这一切的底子） -->
+  <section class="hero">
+    <div class="wrap hero__copy">
+      <p class="eyebrow"><i></i>影视器材租赁管理系统</p>
+      <h1>少请一个库管<br>不漏一笔尾款</h1>
+      <p class="lead">录单、清点全都交给系统，实时设备状态监控。<br>订单、库存、客户全生命周期支持，提升租赁业务效率。</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="#trial" data-trial>免费试用</a>
+        <a class="btn btn--ghost btn--lg" href="#flow">看一张单怎么走</a>
+      </div>
+    </div>
+    <div class="wrap hero__stage">
+      <figure class="browser">
+        <div class="browser__bar"><i></i><i></i><i></i><span>demo.rentalwing.com</span></div>
+        <picture>
+          <source media="(max-width: 640px)" srcset="assets/shots/order-detail-sm.avif" type="image/avif">
+          <source media="(max-width: 640px)" srcset="assets/shots/order-detail-sm.webp" type="image/webp">
+          <source srcset="assets/shots/order-detail.avif" type="image/avif">
+          <source srcset="assets/shots/order-detail.webp" type="image/webp">
+          <img src="assets/shots/order-detail.jpg" width="1600" height="1125" alt="订单详情：器材明细、附件、编号、服务、收款与押金、操作记录都在一张单上">
+        </picture>
+      </figure>
+      <!-- 浮起来的几张小卡：省人、回款、报价各一句 -->
+      <ul class="pops" aria-hidden="true">
+        <li class="pop pop--a"><b>扫码清点 16 / 16 件</b><span>不用对着清单一件件点</span></li>
+        <li class="pop pop--b"><b>待收尾款 ¥2,100</b><span>工作台天天提醒</span></li>
+        <li class="pop pop--c"><b>年框客户 · 8.5 折</b><span>报价按客户自动算</span></li>
+      </ul>
+      <figure class="phone phone--hero">
+        <picture>
+          <source media="(max-width: 640px)" srcset="assets/shots/m-order-sm.avif" type="image/avif">
+          <source media="(max-width: 640px)" srcset="assets/shots/m-order-sm.webp" type="image/webp">
+          <source srcset="assets/shots/m-order.avif" type="image/avif">
+          <source srcset="assets/shots/m-order.webp" type="image/webp">
+          <img src="assets/shots/m-order.jpg" width="640" height="1385" alt="手机上的订单详情">
+        </picture>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 在用 -->
+  <section class="proof">
+    <div class="wrap proof__inner">
+      <p>已在北京影视器材租赁店每天使用</p>
+      <ul>
+        <li><strong>100<sup>+</sup></strong><span>首周订单</span></li>
+        <li><strong>25</strong><span>平均每单件数</span></li>
+        <li><strong>600<sup>+</sup></strong><span>在管器材型号</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 为什么用：老板关心的是钱——省人工、收回尾款、报价快 -->
+  <section class="why" id="why">
+    <div class="wrap">
+      <header class="center-head">
+        <p class="eyebrow eyebrow--dark"><i></i>算一笔账</p>
+        <!-- TODO：定价定了以后核对这句（现在按一年一两万、北京库管月薪六七千算） -->
+        <h2>一年的费用，<br>不到一个库管三个月工资</h2>
+        <p>省下的人工、收回的尾款，都是实打实的钱。</p>
+      </header>
+      <div class="why__grid">
+        <article class="card" data-reveal>
+          <div class="viz viz-vs" aria-hidden="true">
+            <p class="viz-vs__old"><span>以前</span>25 件的单，Excel 抄 25 行；出库对着清单一件件点</p>
+            <p class="viz-vs__new"><span>现在</span>打 3 个器材名，附件自动带出；扫一遍就点完</p>
+          </div>
+          <h3>省人工</h3>
+          <p>录单、清点、算账交给系统，库管的活少一大半，忙季也不用多请人。</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="viz viz-owe" aria-hidden="true">
+            <p><span>青柠映画</span><em class="is-red">逾期 3 天</em><b>¥4,920</b></p>
+            <p><span>陈摄影</span><em>待收尾款</em><b>¥2,100</b></p>
+            <p><span>造梦文化</span><em>待收尾款</em><b>¥11,120</b></p>
+            <p class="viz-owe__sum"><span>合计还欠</span><b>¥18,140</b></p>
+          </div>
+          <h3>尾款收得回来</h3>
+          <p>纸单会忘，系统不会：谁欠多少、拖了几天，天天列在工作台上。</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="viz viz-quote" aria-hidden="true">
+            <p class="viz-quote__q">索尼 FX3 × 2 · 3 天</p>
+            <p><span>散客</span><b>¥2,280</b></p>
+            <p class="is-on"><span>年框客户 · 8.5 折</span><b>¥1,938</b></p>
+            <p><span>同行</span><b>¥1,800</b></p>
+          </div>
+          <h3>报价又快又准</h3>
+          <p>客户问价，按他是散客、年框还是同行自动出价，档期够不够当场知道。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心：一张单的全流程（代码画的界面动画，自动轮播） -->
+  <section class="flow" id="flow" data-flow>
+    <div class="wrap">
+      <header class="center-head">
+        <p class="eyebrow eyebrow--dark"><i></i>订单</p>
+        <h2>一张单，从录单到结清</h2>
+        <p>录单、清点、算账交给系统，库管只管拿东西。</p>
+      </header>
+      <div class="flow__body">
+        <div class="flow__tabs" role="tablist" aria-label="订单流程">
+          <button type="button" role="tab" aria-selected="true" data-step="0"><em>01</em><strong>录单</strong><span>打器材名回车，附件、单价自动带出</span><i class="flow__bar"></i></button>
+          <button type="button" role="tab" aria-selected="false" data-step="1"><em>02</em><strong>出库</strong><span>扫码清点，扫到哪台记哪台</span><i class="flow__bar"></i></button>
+          <button type="button" role="tab" aria-selected="false" data-step="2"><em>03</em><strong>续租 · 追加出库</strong><span>租期变了、东西加了，租金跟着算</span><i class="flow__bar"></i></button>
+          <button type="button" role="tab" aria-selected="false" data-step="3"><em>04</em><strong>分批归还</strong><span>还回来几件记几件，没还的一直记着</span><i class="flow__bar"></i></button>
+          <button type="button" role="tab" aria-selected="false" data-step="4"><em>05</em><strong>结清</strong><span>尾款收齐、押金退完，自动结清</span><i class="flow__bar"></i></button>
+        </div>
+        <figure class="browser browser--light flow__stage">
+          <div class="browser__bar"><i></i><i></i><i></i><span>demo.rentalwing.com</span></div>
+          <!-- 代码画的演示（不是录屏）：五段脚本在 assets/js/site.js 的 SCENES 里，界面照系统的样子简化 -->
+          <div class="demo" data-demo>
+            <div class="demo__bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+            <div class="scene is-active" data-scene="0" role="img" aria-label="录单：选客户、选租期、打器材名，附件和单价自动带出，保存成预订单">
+              <div class="d-panel">
+                <div class="d-title"><b>新建订单</b><span class="d-tag d-tag--cyan" data-k="status" hidden>预订单</span></div>
+                <div class="d-field"><label>客户</label>
+                  <div class="d-box">
+                    <div class="d-input" data-k="cust"><span class="d-ph">搜索客户姓名 / 电话</span><span class="d-val"></span><i class="d-caret"></i><span class="d-tag" data-k="group">年框客户</span></div>
+                    <ul class="d-drop" data-k="custDrop"><li class="is-hot"><b>星河影视</b><span>年框客户</span></li><li><b>星河传媒</b><span>散客</span></li></ul>
+                  </div>
+                </div>
+                <div class="d-field"><label>租期</label>
+                  <div>
+                    <p class="d-period" data-k="period">10-19 周一 → 10-19 周一 · 共 1 天</p>
+                    <p class="d-quick"><span>今天起 1 天</span><span>3 天</span><span data-k="q3">明天起 3 天</span></p>
+                  </div>
+                </div>
+                <div class="d-field d-field--top"><label>器材</label>
+                  <div>
+                    <div class="d-line">
+                      <div class="d-box">
+                        <div class="d-input" data-k="eq"><span class="d-ph">搜索器材</span><span class="d-val"></span><i class="d-caret"></i></div>
+                        <ul class="d-drop" data-k="eqDrop"><li class="is-hot"><b>索尼 FX3</b><span>可用 6 台 · ¥323/天</span></li><li><b>索尼 FX6</b><span>可用 3 台</span></li></ul>
+                      </div>
+                      <span class="d-qty"><i>−</i><b data-k="qty">1</b><i data-k="plus">+</i></span>
+                      <span class="d-sub" data-k="sub">¥0.00</span>
+                    </div>
+                    <p class="d-acc" data-k="acc"><span data-per="3">NP-FZ100 电池 <b>×3</b></span><span data-per="2">CFexpress A 卡 <b>×2</b></span><span data-per="1">FZ100 双充 <b>×1</b></span></p>
+                  </div>
+                </div>
+                <div class="d-foot"><span>订单总额 <b class="d-total" data-k="total">¥0.00</b></span><span class="d-btn" data-k="save">保存</span></div>
+              </div>
+            </div>
+
+            <div class="scene" data-scene="1" role="img" aria-label="出库：出库检查单里逐件扫码清点，扫完出库，从明天起算计费">
+              <div class="d-panel">
+                <div class="d-title"><b>出库检查</b><span class="d-mini">26100017 · 李导</span><span class="d-tag d-tag--cyan" data-k="status">预订单</span></div>
+                <ul class="d-checks"><li>押金已收 ¥6,000.00</li><li>贵重器材都指派了编号</li></ul>
+                <div class="d-scan">
+                  <p class="d-scan__head"><span>扫码清点 · 已扫 <b data-k="n">0</b> / 8 件</span><span class="d-beep" data-k="beep"></span></p>
+                  <p class="d-bar"><i data-k="bar"></i></p>
+                  <ul class="d-items">
+                    <li data-k="i0" data-need="2"><span>索尼 FX3 <em>#04 #05</em></span><b>0/2</b></li>
+                    <li data-k="i1" data-need="1"><span>索尼 24-70 GM <em>#02</em></span><b>0/1</b></li>
+                    <li data-k="i2" data-need="3"><span>NP-FZ100 电池</span><b>0/3</b></li>
+                    <li data-k="i3" data-need="2"><span>CFexpress A 卡</span><b>0/2</b></li>
+                  </ul>
+                </div>
+                <p class="d-note">18:30 出库：17:00 后出库从明天起算 → 计费 2 天</p>
+                <div class="d-foot"><span class="d-mini">出库时刻：现在（18:30）</span><span class="d-btn" data-k="go">出库</span></div>
+              </div>
+            </div>
+
+            <div class="scene" data-scene="2" role="img" aria-label="续租两天、追加出库一台监视器，租期和订单总额跟着变">
+              <div class="d-panel">
+                <div class="d-title"><b>订单 26100015</b><span class="d-mini">造梦文化</span><span class="d-tag d-tag--blue">租赁中</span></div>
+                <p class="d-meta">租期 <b data-k="period">10-18 → 10-21 · 共 4 天</b></p>
+                <ul class="d-items d-items--plain">
+                  <li><span>ARRI Alexa Mini LF</span><b>× 1</b></li>
+                  <li><span>适马 18-35 T2 电影镜头</span><b>× 2</b></li>
+                  <li><span>SmallHD Cine 7</span><b>× 2</b></li>
+                  <li class="d-new" data-k="added"><span>SmallHD Cine 7 <em class="d-tag d-tag--blue">追加 · 18:42</em></span><b>× 1</b></li>
+                </ul>
+                <div class="d-ext" data-k="ext">
+                  <p class="d-quick"><span>续 1 天</span><span data-k="e2">续 2 天</span><span>续 3 天</span></p>
+                  <p class="d-note d-note--ok" data-k="extNote">预计归还 10-21 → <b>10-23</b> · 档期都够</p>
+                </div>
+                <div class="d-foot"><span>订单总额 <b class="d-total" data-k="total">¥21,120.00</b></span><span class="d-btns"><span class="d-btn d-btn--ghost" data-k="extBtn">续租</span><span class="d-btn d-btn--ghost" data-k="moreBtn">追加出库</span></span></div>
+              </div>
+            </div>
+
+            <div class="scene" data-scene="3" role="img" aria-label="分批归还：扫码还回 12 件，还剩 14 件在外，单子进入收尾中">
+              <div class="d-panel">
+                <div class="d-title"><b>归还登记</b><span class="d-mini">26100014 · 星河影视</span><span class="d-beep" data-k="beep"></span></div>
+                <ul class="d-ret">
+                  <li><div><b>索尼 FX3</b><span class="d-mini">未还 3 件</span><span class="d-units"><i data-k="u1">01</i><i data-k="u2">02</i><i>03</i></span></div><span class="d-step"><i>−</i><b data-k="s0">0</b><i>+</i></span></li>
+                  <li><div><b>NP-FZ100 电池</b><span class="d-mini">未还 9 件</span></div><span class="d-step"><i>−</i><b data-k="s1">0</b><i>+</i></span></li>
+                  <li><div><b>CFexpress A 卡</b><span class="d-mini">未还 6 件</span></div><span class="d-step"><i>−</i><b data-k="s2">0</b><i>+</i></span></li>
+                  <li><div><b>索尼 70-200 GM</b><span class="d-mini">未还 1 件</span></div><span class="d-step"><i>−</i><b>0</b><i>+</i></span></li>
+                </ul>
+                <div class="d-foot"><span>本次归还 <b data-k="n">0</b> 件 · <span data-k="left">在外 26 件</span></span><span class="d-btn" data-k="go">确认归还</span></div>
+                <p class="d-done" data-k="done"><span class="d-tag d-tag--blue">租赁中</span><span class="d-tag d-tag--gray">收尾中 · 还剩 14 件</span></p>
+              </div>
+            </div>
+
+            <div class="scene" data-scene="4" role="img" aria-label="收尾款：记一笔微信收款，账平了订单自动结清">
+              <div class="d-panel">
+                <div class="d-title"><b>订单 26100012</b><span class="d-mini">陈摄影</span><span class="d-tag d-tag--orange" data-k="status">已回库</span></div>
+                <dl class="d-money">
+                  <div><dt>订单总额</dt><dd>¥3,000.00</dd></div>
+                  <div><dt>已收</dt><dd data-k="paid">¥900.00</dd></div>
+                  <div class="is-owed" data-k="owedRow"><dt>应收</dt><dd data-k="owed">¥2,100.00</dd></div>
+                </dl>
+                <div class="d-collect" data-k="form">
+                  <p class="d-input d-input--money"><span class="d-val">¥ 2,100.00</span></p>
+                  <p class="d-quick d-pills"><span data-k="wx">微信</span><span>支付宝</span><span>现金</span><span>银行转账</span></p>
+                </div>
+                <ul class="d-log"><li class="d-new" data-k="logNew">账已结平，自动结清 · 刚刚</li><li>收租金 ¥900.00 · 微信 · 10-16</li><li>全部归还 16 件 · 10-16 20:30</li></ul>
+                <div class="d-foot"><span class="d-mini" data-k="hint"></span><span class="d-btn" data-k="go">收尾款 ¥2,100</span></div>
+              </div>
+            </div>
+
+            <p class="d-toast" data-toast></p>
+            <span class="d-cursor" data-cursor aria-hidden="true"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M3 2 L3 18 L7.5 13.8 L10.6 20.4 L13.4 19.1 L10.4 12.7 L16.6 12.5 Z" fill="#111" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 订单上的细节：每张卡一个会动的小画面 -->
+  <section class="details" id="details">
+    <div class="wrap">
+      <header class="center-head">
+        <h2>和真实业务一样的订单</h2>
+        <p>租赁行里的各种「特殊情况」，<br class="show-sm">在单上都有地方记。</p>
+      </header>
+      <div class="bento">
+        <article class="card card--wide" data-reveal>
+          <div class="viz viz-time" aria-hidden="true">
+            <div class="viz-time__days"><span>10-19</span><span>10-20</span><span>10-21</span></div>
+            <div class="viz-time__track">
+              <i class="viz-time__bill"></i>
+              <b class="viz-time__pin viz-time__pin--out">18:30 出库</b>
+              <b class="viz-time__pin viz-time__pin--in">08:40 归还</b>
+            </div>
+            <p class="viz-time__sum">计费 <strong>1</strong> 天</p>
+          </div>
+          <h3>按出入库时刻计费</h3>
+          <p>17:00 后出库当天不算，次日 09:00 前还也不算，分界可改。</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="viz viz-batch" aria-hidden="true">
+            <div><span>索尼 FX3</span><i style="--p:.67"></i><em>2/3</em></div>
+            <div><span>FZ100 电池</span><i style="--p:.67"></i><em>6/9</em></div>
+            <div><span>70-200 镜头</span><i style="--p:0"></i><em>0/1</em></div>
+          </div>
+          <h3>分批归还</h3>
+          <p>还剩几件、是哪几台，一直挂在单上。</p>
+        </article>
+        <article class="card" data-reveal>
+          <div class="viz viz-change" aria-hidden="true">
+            <p><span>预计归还</span><s>10-21</s><b>10-23</b></p>
+            <p><span>订单总额</span><s>¥21,120</s><b>¥31,680</b></p>
+            <p class="viz-change__add">＋ 追加出库 监视器 × 1</p>
+          </div>
+          <h3>续租 · 追加出库</h3>
+          <p>改了就重算，不用另开一张单。</p>
+        </article>
+        <article class="card card--wide" data-reveal>
+          <div class="viz viz-log" aria-hidden="true">
+            <p><i></i><b>出库 · 16 件</b><span>10-19 21:04 · 扫码 13 件，手点 3 件</span></p>
+            <p><i></i><b>续租 · 预计归还 10-21 → 10-23</b><span>订单总额 ¥21,120 → ¥31,680</span></p>
+            <p><i></i><b>归还 12 件</b><span>还剩 14 件在外</span></p>
+            <p><i></i><b>收租金 ¥2,100 · 微信</b><span>账已结平，自动结清</span></p>
+          </div>
+          <h3>每一步都有记录</h3>
+          <p>谁、几点、动了什么，订单时间线上一条不少。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 回款 -->
+  <section class="show show--white" id="money">
+    <div class="wrap show__inner">
+      <div class="show__text">
+        <p class="eyebrow eyebrow--dark"><i></i>回款</p>
+        <h2>尾款，一笔都不会忘</h2>
+        <p>每张单欠多少自动算，催款名单天天更新。</p>
+        <ul class="ticks">
+          <li><svg><use href="#i-check"/></svg>按拖欠天数排，先催最久的</li>
+          <li><svg><use href="#i-check"/></svg>一个客户欠几张单，一次收齐</li>
+          <li><svg><use href="#i-check"/></svg>押金没退完不结清，不会忘了退</li>
+          <li><svg><use href="#i-check"/></svg>对账单一键导出，发给客户</li>
+        </ul>
+      </div>
+      <figure class="shot" data-reveal>
+        <picture>
+          <source media="(max-width: 640px)" srcset="assets/shots/receivables-sm.avif" type="image/avif">
+          <source media="(max-width: 640px)" srcset="assets/shots/receivables-sm.webp" type="image/webp">
+          <source srcset="assets/shots/receivables.avif" type="image/avif">
+          <source srcset="assets/shots/receivables.webp" type="image/webp">
+          <img src="assets/shots/receivables.jpg" width="1600" height="1125" loading="lazy" alt="应收与对账：每个客户欠多少、拖了几天，一次收齐">
+        </picture>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 报价 -->
+  <section class="show show--rev" id="quote">
+    <div class="wrap show__inner">
+      <div class="show__text">
+        <p class="eyebrow eyebrow--dark"><i></i>报价</p>
+        <h2>客户问价，当场报出</h2>
+        <p>价钱按客户算好，档期一眼看清。</p>
+        <ul class="ticks">
+          <li><svg><use href="#i-check"/></svg>学生、年框、同行，各按各的价</li>
+          <li><svg><use href="#i-check"/></svg>哪天还剩几台，档期表上都算好</li>
+          <li><svg><use href="#i-check"/></svg>差几台，一键改成向同行借</li>
+          <li><svg><use href="#i-check"/></svg>报价单一键发微信<span class="soon">即将推出</span></li>
+        </ul>
+      </div>
+      <div class="duo duo--flat" data-reveal>
+        <figure class="shot duo__a">
+          <picture>
+            <source media="(max-width: 640px)" srcset="assets/shots/schedule-sm.avif" type="image/avif">
+            <source media="(max-width: 640px)" srcset="assets/shots/schedule-sm.webp" type="image/webp">
+            <source srcset="assets/shots/schedule.avif" type="image/avif">
+            <source srcset="assets/shots/schedule.webp" type="image/webp">
+            <img src="assets/shots/schedule.jpg" width="1600" height="1125" loading="lazy" alt="档期表：每个型号每天还能租几台，紧张的标黄、订满的标红">
+          </picture>
+        </figure>
+        <figure class="shot duo__b">
+          <picture>
+            <source media="(max-width: 640px)" srcset="assets/shots/groups-sm.avif" type="image/avif">
+            <source media="(max-width: 640px)" srcset="assets/shots/groups-sm.webp" type="image/webp">
+            <source srcset="assets/shots/groups.avif" type="image/avif">
+            <source srcset="assets/shots/groups.webp" type="image/webp">
+            <img src="assets/shots/groups.jpg" width="1100" height="373" loading="lazy" alt="客户组：散客、同行、学生、年框客户各一条价格规则">
+          </picture>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 扫码 -->
+  <section class="show show--dark" id="scan">
+    <div class="wrap show__inner">
+      <div class="show__text">
+        <p class="eyebrow"><i></i>扫码出入库</p>
+        <h2>扫一下，清点完</h2>
+        <p>出库、归还扫一遍就点完，拿错了当场提示。</p>
+        <ul class="ticks ticks--light">
+          <li><svg><use href="#i-check"/></svg>扫码枪、手机都能扫</li>
+          <li><svg><use href="#i-check"/></svg>扫到哪台记哪台</li>
+          <li><svg><use href="#i-check"/></svg>回库一次扫完，自动认单</li>
+        </ul>
+      </div>
+      <div class="duo" data-reveal>
+        <figure class="shot shot--card duo__a">
+          <picture>
+            <source media="(max-width: 640px)" srcset="assets/shots/dispatch-scan-sm.avif" type="image/avif">
+            <source media="(max-width: 640px)" srcset="assets/shots/dispatch-scan-sm.webp" type="image/webp">
+            <source srcset="assets/shots/dispatch-scan.avif" type="image/avif">
+            <source srcset="assets/shots/dispatch-scan.webp" type="image/webp">
+            <img src="assets/shots/dispatch-scan.jpg" width="1100" height="1375" loading="lazy" alt="出库检查：扫码清点已扫 8 / 16 件，还没扫的列在下面">
+          </picture>
+        </figure>
+        <figure class="shot shot--card duo__b">
+          <picture>
+            <source media="(max-width: 640px)" srcset="assets/shots/return-scan-sm.avif" type="image/avif">
+            <source media="(max-width: 640px)" srcset="assets/shots/return-scan-sm.webp" type="image/webp">
+            <source srcset="assets/shots/return-scan.avif" type="image/avif">
+            <source srcset="assets/shots/return-scan.webp" type="image/webp">
+            <img src="assets/shots/return-scan.jpg" width="1200" height="667" loading="lazy" alt="归还登记：扫到的编号自动勾上">
+          </picture>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 手机 -->
+  <section class="phones" id="mobile">
+    <div class="wrap">
+      <header class="center-head">
+        <p class="eyebrow eyebrow--dark"><i></i>手机</p>
+        <h2>在库房、在片场，<br class="show-sm">掏出手机就能用</h2>
+        <p>添加到主屏幕像 App 一样用，<br class="show-sm">派单、到期有推送。</p>
+      </header>
+      <div class="phones__row" data-reveal>
+        <figure class="phone">
+          <picture>
+            <source media="(max-width: 640px)" srcset="assets/shots/m-orders-sm.avif" type="image/avif">
+            <source media="(max-width: 640px)" srcset="assets/shots/m-orders-sm.webp" type="image/webp">
+            <source srcset="assets/shots/m-orders.avif" type="image/avif">
+            <source srcset="assets/shots/m-orders.webp" type="image/webp">
+            <img src="assets/shots/m-orders.jpg" width="640" height="1385" loading="lazy" alt="手机上的订单列表">
+          </picture>
+          <figcaption>订单</figcaption>
+        </figure>
+        <figure class="phone phone--up">
+          <picture>
+            <source media="(max-width: 640px)" srcset="assets/shots/m-dashboard-sm.avif" type="image/avif">
+            <source media="(max-width: 640px)" srcset="assets/shots/m-dashboard-sm.webp" type="image/webp">
+            <source srcset="assets/shots/m-dashboard.avif" type="image/avif">
+            <source srcset="assets/shots/m-dashboard.webp" type="image/webp">
+            <img src="assets/shots/m-dashboard.jpg" width="640" height="1385" loading="lazy" alt="手机上的工作台">
+          </picture>
+          <figcaption>今天要办的事</figcaption>
+        </figure>
+        <figure class="phone">
+          <picture>
+            <source media="(max-width: 640px)" srcset="assets/shots/m-schedule-sm.avif" type="image/avif">
+            <source media="(max-width: 640px)" srcset="assets/shots/m-schedule-sm.webp" type="image/webp">
+            <source srcset="assets/shots/m-schedule.avif" type="image/avif">
+            <source srcset="assets/shots/m-schedule.webp" type="image/webp">
+            <img src="assets/shots/m-schedule.jpg" width="640" height="1385" loading="lazy" alt="手机上的档期表">
+          </picture>
+          <figcaption>档期</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 还有这些 -->
+  <section class="tiles-sec">
+    <div class="wrap">
+      <header class="center-head">
+        <h2>还有这些</h2>
+      </header>
+      <ul class="tiles">
+        <li data-reveal><svg><use href="#i-crew"/></svg><strong>派助理</strong><span>手机打卡，超班自动算</span></li>
+        <li data-reveal><svg><use href="#i-sheet"/></svg><strong>单据发微信</strong><span>出库单、结算单存成图片</span></li>
+        <li data-reveal><svg><use href="#i-lock"/></svg><strong>三级权限</strong><span>库管看不到利润</span></li>
+        <li data-reveal><svg><use href="#i-cloud"/></svg><strong>每天自动备份</strong><span>本机加异地云端</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 即将推出 -->
+  <section class="next" id="next">
+    <div class="wrap">
+      <header class="center-head center-head--light">
+        <p class="eyebrow"><i></i>即将推出</p>
+        <h2>不只管好自己的店</h2>
+      </header>
+      <div class="next__grid">
+        <article class="next__card" data-reveal>
+          <div class="net" aria-hidden="true">
+            <svg class="net__lines" viewBox="0 0 300 160" preserveAspectRatio="none"><path d="M150 80 L50 30 M150 80 L250 35 M150 80 L240 135"/></svg>
+            <span class="net__node net__node--me">你的店</span>
+            <span class="net__node net__node--a">北影器材</span>
+            <span class="net__node net__node--b">海岩视觉</span>
+            <span class="net__node net__node--c">青柠器材</span>
+          </div>
+          <h3>店间借调</h3>
+          <p>缺货直接向周边同行发调货单，两边的单和账自动对上。</p>
+        </article>
+        <article class="next__card" data-reveal>
+          <div class="chat" aria-hidden="true">
+            <p class="chat__in">明天两台 FX3、一套 24-70，用三天</p>
+            <p class="chat__out"><b>小翼</b><span class="chat__typing"><i></i><i></i><i></i></span><span class="chat__text">已录好预订单 · 档期都够 · 预计 ¥2,160</span></p>
+          </div>
+          <h3>AI 助手「小翼」</h3>
+          <p>把客户的微信消息转给小翼，单就录好了。</p>
+        </article>
+        <article class="next__card" data-reveal>
+          <div class="mini" aria-hidden="true">
+            <div class="mini__phone">
+              <p class="mini__shop">光影器材租赁</p>
+              <p class="mini__item"><span>索尼 FX3</span><b>¥380/天</b></p>
+              <p class="mini__item"><span>爱图仕 600C</span><b>¥320/天</b></p>
+              <p class="mini__btn">选好日期，立即预订</p>
+            </div>
+            <span class="mini__badge">新订单 · 待确认</span>
+          </div>
+          <h3>客户自己下单</h3>
+          <p>一键开通你店的下单小程序；加入翼起租联盟，被更多剧组找到。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 行动 -->
+  <section class="cta" id="contact">
+    <div class="wrap cta__inner">
+      <h2>先用起来，再算省了多少</h2>
+      <p>打开演示店随便点；也可以约我们上门，拿你的器材清单当场试。</p>
+      <div class="cta__actions">
+        <a class="btn btn--primary btn--lg" href="#trial" data-trial>免费试用</a>
+        <a class="btn btn--ghost btn--lg" href="#contact" data-contact>预约演示</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <img src="assets/img/rentalwing-logo-inline-white.svg" alt="翼起租 RENTALWING" width="168" height="28">
+    <p>北京新翼影传媒有限公司 出品<br>
+      <!-- TODO：备案号下来后替换，并链接到 https://beian.miit.gov.cn/ -->
+      <span>京ICP备 待办理</span></p>
+    <p class="footer__copy">© <span data-year>2026</span> NEXWING</p>
+  </div>
+</footer>
+
+<!-- 免费试用：演示店还没搭好，先示意。开放后把 data-trial-url 换成真的地址、去掉按钮的 is-soon 和下面那行说明 -->
+<dialog class="modal" id="trial" aria-labelledby="trial-title" data-trial-url="https://demo.rentalwing.com">
+  <form method="dialog" class="modal__close-form"><button class="modal__close" aria-label="关闭">×</button></form>
+  <p class="eyebrow eyebrow--dark"><i></i>免费试用</p>
+  <h3 id="trial-title">演示店 · 光影器材租赁</h3>
+  <p class="modal__desc">装好了演示数据的一家店：器材、客户、进行中的单都有，随便点、随便改。不用注册，进去选个身份（老板 / 库管 / 助理）就能用。</p>
+  <p class="trial-url">demo.rentalwing.com</p>
+  <a class="btn btn--primary btn--lg btn--block is-soon" href="#" data-trial-go aria-disabled="true">进入演示店</a>
+  <p class="modal__soon">演示店正在准备，开放后点上面直接进。现在可以先<a href="#contact" data-contact>预约演示</a>。</p>
+</dialog>
+
+<!-- 预约演示：联系方式 -->
+<dialog class="modal" id="contact-dialog" aria-labelledby="contact-title">
+  <form method="dialog" class="modal__close-form"><button class="modal__close" aria-label="关闭">×</button></form>
+  <p class="eyebrow eyebrow--dark"><i></i>预约演示</p>
+  <h3 id="contact-title">加微信，约个时间</h3>
+  <div class="contact">
+    <!-- TODO：换成真实的微信二维码 /assets/img/wechat-qr.png -->
+    <div class="contact__qr">微信二维码</div>
+    <ul>
+      <li><span>微信</span>扫码添加，备注「器材店」</li>
+      <!-- TODO：填真实的电话、邮箱 -->
+      <li><span>电话</span>待补</li>
+      <li><span>邮箱</span>hello@rentalwing.com</li>
+    </ul>
+  </div>
+</dialog>
+
+<script src="assets/js/site.js" defer></script>
+</body>
+</html>

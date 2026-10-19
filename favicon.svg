@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500" role="img" aria-label="翼起租 RENTALWING">
+<title>翼起租 RENTALWING</title>
+<rect width="500" height="500" rx="110" fill="#222222"/>
+<path fill="#EEEEEE" d="M 125 150 H 181 V 350 H 125 Z M 125 150 H 290 Q 338.99 150 347.98 190 H 125 Z M 125 230 H 347.98 Q 338.99 270 290 270 H 125 Z M 220 270 H 285 L 357 350 H 287 Z"/>
+<path fill="#FF4901" d="M364 193 H413 V227 H364 Z"/>
+</svg>
