@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Guides · RENTALWING</title>
+  <link rel="alternate" hreflang="zh-CN" href="../help.html">
+  <meta name="description" content="RENTALWING guides: getting started, booking, check-out, check-in, payments, customer pricing, barcodes, crew and roles.">
+  <meta name="theme-color" content="#161616">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Guides · RENTALWING">
+  <meta property="og:description" content="RENTALWING guides: getting started, booking, check-out, check-in, payments, customer pricing, barcodes, crew and roles.">
+  <meta property="og:image" content="../assets/img/og.png">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body class="sub sub--help">
+<!-- 由 tools/build_site.py 从 site-src/ 生成，别直接改这个文件 -->
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- @icons -->
+<!-- 线条图标（只定义一次，下面用 <use> 引用） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-crew" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .7 3 2.8 3 6"/></symbol>
+    <symbol id="i-sheet" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.6-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/><path d="M12 12v5M9.5 14.5 12 12l2.5 2.5"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  </defs>
+</svg>
+<!-- /@icons -->
+
+<!-- @header -->
+<header class="nav" data-nav>
+  <div class="wrap nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="RENTALWING home">
+      <img src="../assets/img/rentalwing-logo-en-white.svg" alt="RENTALWING" width="168" height="32">
+    </a>
+    <nav class="nav__links" id="nav-links" aria-label="Site">
+      <a href="index.html" data-key="home">Product</a>
+      <a href="pricing.html" data-key="pricing">Pricing</a>
+      <a href="help.html" data-key="help" aria-current="page">Guides</a>
+      <a href="changelog.html" data-key="changelog">Changelog</a>
+      <a href="about.html" data-key="about">About</a>
+    </nav>
+    <a class="nav__lang" href="../help.html" hreflang="zh-CN" lang="zh-CN" title="中文">中文</a>
+    <a class="btn btn--primary btn--sm nav__cta" href="#trial" data-trial>Try free</a>
+    <button class="nav__toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu" data-nav-toggle>
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+<!-- /@header -->
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow"><i></i>Guides</p>
+      <h1>Guides</h1>
+      <p class="lead">One task per guide, a few steps each. Stuck? Ask us in the support chat. (The app is in Chinese today; button names below are translated.)</p>
+    </div>
+  </section>
+
+  <section class="help">
+    <div class="wrap help__inner">
+      <nav class="help__toc" aria-label="Contents">
+        <p class="help__toc-title">Contents</p>
+        <a href="#start">Getting started</a>
+        <a href="#mobile">On your phone</a>
+        <a href="#order">Book an order</a>
+        <a href="#dispatch">Check out</a>
+        <a href="#return">Check in</a>
+        <a href="#money">Payments &amp; settling</a>
+        <a href="#price">Customer pricing</a>
+        <a href="#scan">Labels &amp; scanning</a>
+        <a href="#crew">Crew</a>
+        <a href="#roles">Accounts &amp; roles</a>
+      </nav>
+
+      <div class="help__body">
+        <article class="guide" id="start">
+          <h2>Getting started</h2>
+          <p>Send us these three things and you can start the same day:</p>
+          <ol class="steps">
+            <li><b>Gear list</b>: name, quantity and day rate; serial numbers for the valuable items (a spreadsheet or a photo of a handwritten list is fine). Note which batteries and cards go with each camera — we'll set them up as default accessories.</li>
+            <li><b>Customer list</b>: name and phone; mark partners, students and annual clients.</li>
+            <li><b>Staff phone numbers</b>: everyone gets their own account and signs in with their phone number, setting a password the first time.</li>
+          </ol>
+          <p class="tip">Orders from before you started can be back-filled one by one (Orders → ⋯ → Back-fill), and they still reconcile.</p>
+        </article>
+
+        <article class="guide" id="mobile">
+          <h2>On your phone</h2>
+          <p>No app to download — open your store's address in the browser. Add it to your home screen and it opens like an app, with job and due-date alerts.</p>
+          <ol class="steps">
+            <li><b>iPhone</b>: open it in Safari → Share → Add to Home Screen. Alerts need iOS 16.4+ and opening from the home-screen icon.</li>
+            <li><b>Android</b>: open it in your browser → menu → Add to home screen.</li>
+            <li>Turn on job alerts and the morning summary under Me → App &amp; notifications.</li>
+          </ol>
+        </article>
+
+        <article class="guide" id="order">
+          <h2>Book an order</h2>
+          <ol class="steps">
+            <li>Orders → New order. Type a customer's name or phone and press Enter.</li>
+            <li>The dates row reads "start · days · end"; use the shortcuts (e.g. "Tomorrow, 3 days"). Don't know the return date yet? Choose "Not sure" to hold a few days.</li>
+            <li>Type a gear name and press Enter. The camera's batteries and cards appear underneath, and the rate follows the customer's group.</li>
+            <li>Change the quantity and accessories scale with it. If you're short, you'll see it immediately and can turn the shortfall into a sub-rental.</li>
+            <li>Save to create a booking, or "Save &amp; check out" if they're taking it now.</li>
+          </ol>
+          <figure class="shot"><picture><source media="(max-width: 640px)" srcset="../assets/shots/order-detail-sm.avif" type="image/avif"><source media="(max-width: 640px)" srcset="../assets/shots/order-detail-sm.webp" type="image/webp"><source srcset="../assets/shots/order-detail.avif" type="image/avif"><source srcset="../assets/shots/order-detail.webp" type="image/webp"><img src="../assets/shots/order-detail.jpg" width="1600" height="1125" loading="lazy" alt="A saved order: gear, accessories, serials, totals and history in one place"></picture></figure>
+        </article>
+
+        <article class="guide" id="dispatch">
+          <h2>Check out</h2>
+          <ol class="steps">
+            <li>Open the order and press "Check out". The checklist shows whether the deposit is in, serials are assigned, and how many items are going.</li>
+            <li>Scan each item with a scanner or phone; the exact unit is recorded, and wrong or extra items are flagged. Unlabelled items get ticked by hand.</li>
+            <li>Check-out time defaults to now. After 17:00, billing starts the next day (you can change the cut-off).</li>
+            <li>Print the pick list or save it as an image to send to the client.</li>
+          </ol>
+          <figure class="shot shot--narrow"><picture><source media="(max-width: 640px)" srcset="../assets/shots/dispatch-scan-sm.avif" type="image/avif"><source media="(max-width: 640px)" srcset="../assets/shots/dispatch-scan-sm.webp" type="image/webp"><source srcset="../assets/shots/dispatch-scan.avif" type="image/avif"><source srcset="../assets/shots/dispatch-scan.webp" type="image/webp"><img src="../assets/shots/dispatch-scan.jpg" width="1100" height="1375" loading="lazy" alt="The check-out list: scanned and still-to-scan items"></picture></figure>
+        </article>
+
+        <article class="guide" id="return">
+          <h2>Check in</h2>
+          <ol class="steps">
+            <li>Open the order and press "Check in". Each main item has a card with its accessories; scan or enter how many came back.</li>
+            <li>Only part of it back? Confirm anyway — the order shows "Wrapping up · N left" until the rest arrives.</li>
+            <li>Damaged or lost: turn on "Damage", choose minor / needs repair / lost, add a photo and the charge (or "pending"). Repairs are tracked on the repairs page.</li>
+            <li>Accessories that were forgotten at check-out can be added under the card.</li>
+          </ol>
+          <figure class="shot"><picture><source media="(max-width: 640px)" srcset="../assets/shots/return-scan-sm.avif" type="image/avif"><source media="(max-width: 640px)" srcset="../assets/shots/return-scan-sm.webp" type="image/webp"><source srcset="../assets/shots/return-scan.avif" type="image/avif"><source srcset="../assets/shots/return-scan.webp" type="image/webp"><img src="../assets/shots/return-scan.jpg" width="1200" height="668" loading="lazy" alt="Check-in: scanned serials tick themselves"></picture></figure>
+        </article>
+
+        <article class="guide" id="money">
+          <h2>Payments &amp; settling</h2>
+          <ol class="steps">
+            <li>Press "Collect" on the order; the amount defaults to what's owed. Deposits are taken and returned the same way, or applied to the balance.</li>
+            <li>When the gear is back, the balance is paid and the deposit returned, the order settles itself — it won't close while you're still holding a deposit.</li>
+            <li>Writing off a small remainder? Use ⋯ → Waive &amp; settle.</li>
+            <li>Finance → Receivables lists who owes the longest first; collect several orders at once and export a statement to Excel.</li>
+          </ol>
+          <figure class="shot"><picture><source media="(max-width: 640px)" srcset="../assets/shots/receivables-sm.avif" type="image/avif"><source media="(max-width: 640px)" srcset="../assets/shots/receivables-sm.webp" type="image/webp"><source srcset="../assets/shots/receivables.avif" type="image/avif"><source srcset="../assets/shots/receivables.webp" type="image/webp"><img src="../assets/shots/receivables.jpg" width="1600" height="1125" loading="lazy" alt="Receivables: what each customer owes and for how long"></picture></figure>
+        </article>
+
+        <article class="guide" id="price">
+          <h2>Customer pricing</h2>
+          <ol class="steps">
+            <li>Customers → Groups: walk-in, partner and partner-rate groups come built in; add your own, like students or annual clients.</li>
+            <li>Each group has one rule — day rate or partner rate, with a discount — plus per-item overrides.</li>
+            <li>Put a customer in a group, and their orders price themselves. You can still edit any line.</li>
+          </ol>
+          <figure class="shot"><picture><source media="(max-width: 640px)" srcset="../assets/shots/groups-sm.avif" type="image/avif"><source media="(max-width: 640px)" srcset="../assets/shots/groups-sm.webp" type="image/webp"><source srcset="../assets/shots/groups.avif" type="image/avif"><source srcset="../assets/shots/groups.webp" type="image/webp"><img src="../assets/shots/groups.jpg" width="1100" height="373" loading="lazy" alt="Customer groups: one pricing rule each"></picture></figure>
+        </article>
+
+        <article class="guide" id="scan">
+          <h2>Labels &amp; scanning</h2>
+          <ol class="steps">
+            <li>Stick blank QR labels on your gear (or use the factory barcode).</li>
+            <li>In a model's serial-number list, start "Link codes": the screen names a unit, you scan its label, and it moves to the next. Batteries and cards without serials link to the model.</li>
+            <li>Scan anything on any page to see whether it's in stock or on which order.</li>
+            <li>When a pile comes back, use Orders → Scan return: scan everything and it sorts out which orders it belongs to.</li>
+          </ol>
+        </article>
+
+        <article class="guide" id="crew">
+          <h2>Crew</h2>
+          <ol class="steps">
+            <li>On an order, "+ Add service", pick a role (e.g. camera assistant) and assign someone; the fee is billed with the order.</li>
+            <li>Assistants see the job under "My jobs" on their phone and clock in and out; overtime is calculated.</li>
+            <li>Taxi or courier costs are logged with a receipt photo, and the warehouse decides whether to bill the client.</li>
+            <li>Freelancers don't need an account — send them a one-time clock-in link. Pay everyone under Finance → Crew pay.</li>
+          </ol>
+        </article>
+
+        <article class="guide" id="roles">
+          <h2>Accounts &amp; roles</h2>
+          <ol class="steps">
+            <li><b>Owner</b>: everything, including the books, monthly profit, partner reconciliation and payroll.</li>
+            <li><b>Warehouse</b>: bookings, check-out/in, payments, chasing balances, assigning crew — without margins, sub-rental costs or wages.</li>
+            <li><b>Crew</b>: only their own jobs; clock in and log expenses, no amounts or customer details.</li>
+            <li>Create accounts under Settings → Accounts with a name and phone number; people set their own password on first sign-in.</li>
+          </ol>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- @footer -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="../assets/img/rentalwing-logo-en-white.svg" alt="RENTALWING" width="147" height="28">
+        <p>Rental management for film &amp; camera gear<br>By NEXWING · Beijing</p>
+      </div>
+      <nav class="footer__cols" aria-label="Sitemap">
+        <div><h4>Product</h4><a href="index.html">Overview</a><a href="pricing.html">Pricing</a><a href="changelog.html">Changelog</a></div>
+        <div><h4>Help</h4><a href="help.html">Guides</a><a href="#contact" data-contact>Book a demo</a><a href="#trial" data-trial>Try free</a></div>
+        <div><h4>Company</h4><a href="about.html">About</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a></div>
+      </nav>
+    </div>
+    <div class="footer__bottom">
+      <span>Beijing NEXWING Media Co., Ltd.</span>
+      <span class="footer__copy">© <span data-year>2026</span> NEXWING</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Try free: demo store not live yet. When it is, set data-trial-url, remove is-soon and the note below -->
+<dialog class="modal" id="trial" aria-labelledby="trial-title" data-trial-url="https://demo.rentalwing.com">
+  <form method="dialog" class="modal__close-form"><button class="modal__close" aria-label="Close">×</button></form>
+  <p class="eyebrow eyebrow--dark"><i></i>Try free</p>
+  <h3 id="trial-title">Demo store · Lumen Rentals</h3>
+  <p class="modal__desc">A store loaded with sample gear, customers and live orders. Click anything, change anything. No sign-up: pick a role (owner / warehouse / crew) and you're in. The app itself is in Chinese for now; English is on the way.</p>
+  <p class="trial-url">demo.rentalwing.com</p>
+  <a class="btn btn--primary btn--lg btn--block is-soon" href="#" data-trial-go aria-disabled="true">Open demo store</a>
+  <p class="modal__soon">The demo store is almost ready. Meanwhile, <a href="#contact" data-contact>book a demo</a>.</p>
+</dialog>
+
+<!-- Book a demo: contact -->
+<dialog class="modal" id="contact-dialog" aria-labelledby="contact-title">
+  <form method="dialog" class="modal__close-form"><button class="modal__close" aria-label="Close">×</button></form>
+  <p class="eyebrow eyebrow--dark"><i></i>Book a demo</p>
+  <h3 id="contact-title">Let's find a time</h3>
+  <div class="contact">
+    <!-- TODO: real WeChat QR /assets/img/wechat-qr.png -->
+    <div class="contact__qr">WeChat QR</div>
+    <ul>
+      <li><span>Email</span>hello@rentalwing.com</li>
+      <li><span>WeChat</span>Scan the code, note "rental"</li>
+    </ul>
+  </div>
+</dialog>
+<!-- /@footer -->
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

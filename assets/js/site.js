@@ -1,5 +1,7 @@
-// 手机菜单；「免费试用」「预约演示」弹窗；滚到眼前的动效；「一张单的全流程」演示动画；页脚年份。不依赖任何库。
+// 手机菜单；「免费试用」「预约演示」弹窗；滚到眼前的动效；「一张单的全流程」演示动画；价格页的计算器；页脚年份。不依赖任何库。
 (function () {
+  // 中英文两个站共用这份脚本：<html lang="en"> 时用英文
+  var L = function (zh, en) { return document.documentElement.lang === 'en' ? en : zh; };
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var canObserve = 'IntersectionObserver' in window;
 
@@ -10,7 +12,7 @@
     if (!nav || !btn) return;
     if (open) nav.setAttribute('data-open', ''); else nav.removeAttribute('data-open');
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    btn.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+    btn.setAttribute('aria-label', open ? L('关闭菜单', 'Close menu') : L('打开菜单', 'Open menu'));
   };
   if (nav && btn) {
     btn.addEventListener('click', function () { setOpen(!nav.hasAttribute('data-open')); });
@@ -139,21 +141,21 @@
         var chips = function (q) { for (var i = 0; i < acc.length; i++) acc[i].querySelector('b').textContent = '×' + acc[i].getAttribute('data-per') * q; };
         return a.wait(500)
           .then(function () { return a.click(cust, 0.3); })
-          .then(function () { cust.classList.add('is-focus'); return a.type(cust, '星河'); })
+          .then(function () { cust.classList.add('is-focus'); return a.type(cust, L('星河', 'Star')); })
           .then(function () { cd.classList.add('is-open'); return a.wait(650); })
           .then(function () { return a.click(cd.firstElementChild, 0.3); })
           .then(function () {
             cd.classList.remove('is-open'); cust.classList.remove('is-focus'); cust.classList.add('is-picked');
-            cust.querySelector('.d-val').textContent = '星河影视'; return a.wait(350);
+            cust.querySelector('.d-val').textContent = L('星河影视', 'Starlight Films'); return a.wait(350);
           })
           .then(function () { return a.click(a.$('q3')); })
-          .then(function () { a.$('q3').classList.add('is-on'); a.flash(a.$('period'), '10-20 周二 → 10-22 周四 · 共 3 天'); return a.wait(500); })
+          .then(function () { a.$('q3').classList.add('is-on'); a.flash(a.$('period'), L('10-20 周二 → 10-22 周四 · 共 3 天', 'Tue 10/20 → Thu 10/22 · 3 days')); return a.wait(500); })
           .then(function () { return a.click(eq, 0.3); })
           .then(function () { eq.classList.add('is-focus'); return a.type(eq, 'FX3'); })
           .then(function () { ed.classList.add('is-open'); return a.wait(600); })
           .then(function () { return a.click(ed.firstElementChild, 0.3); })
           .then(function () {
-            ed.classList.remove('is-open'); eq.classList.remove('is-focus'); eq.querySelector('.d-val').textContent = '索尼 FX3';
+            ed.classList.remove('is-open'); eq.classList.remove('is-focus'); eq.querySelector('.d-val').textContent = L('索尼 FX3', 'Sony FX3');
             a.$('sub').textContent = '¥969.00';
             var i = 0;
             var pop = function () { if (i >= acc.length) return Promise.resolve(); acc[i++].classList.add('is-in'); return a.wait(180).then(pop); };
@@ -164,7 +166,7 @@
           .then(function () { a.bump(a.$('qty'), '2'); chips(2); a.$('sub').textContent = '¥1,938.00'; return a.count(a.$('total'), 969, 1938, 500); })
           .then(function () { return a.wait(600); })
           .then(function () { return a.click(a.$('save')); })
-          .then(function () { a.status(a.$('status'), '预订单', 'cyan'); a.toast('订单 26100024 已创建'); return a.wait(2000); });
+          .then(function () { a.status(a.$('status'), L('预订单', 'Booked'), 'cyan'); a.toast(L('订单 26100024 已创建', 'Order 26100024 created')); return a.wait(2000); });
       },
       // 02 出库：逐件扫码清点 → 出库，状态变成租赁中
       function (a) {
@@ -174,7 +176,7 @@
           if (n >= seq.length) return Promise.resolve();
           var k = seq[n][0], li = a.$(k), need = +li.getAttribute('data-need');
           got[k] = (got[k] || 0) + 1; n++;
-          beep.textContent = '嘀 ' + seq[n - 1][1]; beep.classList.add('is-on');
+          beep.textContent = L('嘀 ', 'Beep ') + seq[n - 1][1]; beep.classList.add('is-on');
           li.querySelector('b').textContent = got[k] + '/' + need;
           li.classList.add('is-hit'); if (got[k] >= need) li.classList.add('is-done');
           a.$('n').textContent = n; a.$('bar').style.width = (n / seq.length * 100) + '%';
@@ -183,7 +185,7 @@
         return a.wait(700).then(scan)
           .then(function () { beep.classList.remove('is-on'); return a.wait(400); })
           .then(function () { return a.click(a.$('go')); })
-          .then(function () { a.status(a.$('status'), '租赁中', 'blue'); a.toast('26100017 已出库 · 8 件'); return a.wait(2000); });
+          .then(function () { a.status(a.$('status'), L('租赁中', 'Out'), 'blue'); a.toast(L('26100017 已出库 · 8 件', '26100017 checked out · 8 items')); return a.wait(2000); });
       },
       // 03 续租 2 天 → 追加出库一台监视器
       function (a) {
@@ -192,16 +194,16 @@
           .then(function () { return a.click(btn); })
           .then(function () { a.on(ext); return a.wait(450); })
           .then(function () { return a.click(a.$('e2')); })
-          .then(function () { a.$('e2').classList.add('is-on'); a.on(a.$('extNote')); btn.textContent = '续租到 10-23'; btn.classList.remove('d-btn--ghost'); return a.wait(700); })
+          .then(function () { a.$('e2').classList.add('is-on'); a.on(a.$('extNote')); btn.textContent = L('续租到 10-23', 'Extend to 10/23'); btn.classList.remove('d-btn--ghost'); return a.wait(700); })
           .then(function () { return a.click(btn); })
           .then(function () {
-            ext.classList.remove('is-in'); btn.textContent = '续租'; btn.classList.add('d-btn--ghost');
-            a.flash(a.$('period'), '10-18 → 10-23 · 共 6 天'); a.toast('已续租到 10-23');
+            ext.classList.remove('is-in'); btn.textContent = L('续租', 'Extend'); btn.classList.add('d-btn--ghost');
+            a.flash(a.$('period'), L('10-18 → 10-23 · 共 6 天', '10/18 → 10/23 · 6 days')); a.toast(L('已续租到 10-23', 'Extended to 10/23'));
             return a.count(a.$('total'), 21120, 31680, 700);
           })
           .then(function () { return a.wait(900); })
           .then(function () { toastEl.classList.remove('is-on'); return a.click(a.$('moreBtn')); })
-          .then(function () { a.on(a.$('added')); a.toast('已追加出库 · 1 件'); return a.count(a.$('total'), 31680, 32428, 500); })
+          .then(function () { a.on(a.$('added')); a.toast(L('已追加出库 · 1 件', 'Added to order · 1 item')); return a.count(a.$('total'), 31680, 32428, 500); })
           .then(function () { return a.wait(2000); });
       },
       // 04 分批归还：扫码还回 12 件 → 收尾中 · 还剩 14 件
@@ -209,8 +211,8 @@
         var beep = a.$('beep'), n = 0;
         var scan = function (code, fn) {
           return function () {
-            beep.textContent = '嘀 ' + code; beep.classList.add('is-on'); fn(); n++;
-            a.$('n').textContent = n; a.$('left').textContent = '在外 ' + (26 - n) + ' 件';
+            beep.textContent = L('嘀 ', 'Beep ') + code; beep.classList.add('is-on'); fn(); n++;
+            a.$('n').textContent = n; a.$('left').textContent = L('在外 ' + (26 - n) + ' 件', (26 - n) + ' still out');
             return a.wait(380);
           };
         };
@@ -222,14 +224,14 @@
         return p
           .then(function () { beep.classList.remove('is-on'); return a.wait(400); })
           .then(function () { return a.click(a.$('go')); })
-          .then(function () { a.on(a.$('done')); a.toast('已归还 12 件 · 还剩 14 件在外'); return a.wait(2200); });
+          .then(function () { a.on(a.$('done')); a.toast(L('已归还 12 件 · 还剩 14 件在外', '12 returned · 14 still out')); return a.wait(2200); });
       },
       // 05 收尾款：记一笔微信 → 账平了，自动结清
       function (a) {
         var go = a.$('go');
         return a.wait(700)
           .then(function () { return a.click(go); })
-          .then(function () { a.on(a.$('form')); go.textContent = '确认记账'; a.$('hint').textContent = '记完应收 ¥0.00，自动结清'; return a.wait(500); })
+          .then(function () { a.on(a.$('form')); go.textContent = L('确认记账', 'Record payment'); a.$('hint').textContent = L('记完应收 ¥0.00，自动结清', 'Balance → ¥0.00, auto-settles'); return a.wait(500); })
           .then(function () { return a.click(a.$('wx')); })
           .then(function () { a.$('wx').classList.add('is-on'); return a.wait(500); })
           .then(function () { return a.click(go); })
@@ -238,7 +240,7 @@
             a.$('owed').textContent = '¥0.00'; a.$('owedRow').classList.add('is-zero');
             return a.count(a.$('paid'), 900, 3000, 600);
           })
-          .then(function () { a.status(a.$('status'), '已结清', 'green'); a.on(a.$('logNew')); a.toast('账已结平，订单自动结清'); return a.wait(2400); });
+          .then(function () { a.status(a.$('status'), L('已结清', 'Settled'), 'green'); a.on(a.$('logNew')); a.toast(L('账已结平，订单自动结清', 'Paid in full — order settled')); return a.wait(2400); });
       },
     ];
 
@@ -292,6 +294,30 @@
         }, { threshold: 0.35 }).observe(demo);
       } else { visible = true; startOnce(); }
     }
+  }
+
+  // ---------- 价格页：算一算一年能省多少（库管人数 × 月薪 × 12 × 30%） ----------
+  var calc = document.querySelector('[data-calc]');
+  if (calc) {
+    var inStaff = calc.querySelector('[data-calc-in="staff"]');
+    var inSalary = calc.querySelector('[data-calc-in="salary"]');
+    var out = calc.querySelector('[data-calc-out="save"]');
+    var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
+    var update = function () {
+      var staff = Math.max(0, Math.min(99, +inStaff.value || 0));
+      var salary = Math.max(0, +inSalary.value || 0);
+      out.textContent = fmt(staff * salary * 12 * 0.3);
+    };
+    calc.addEventListener('input', update);
+    calc.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-calc-inc], [data-calc-dec]');
+      if (!b) return;
+      e.preventDefault();
+      var v = (+inStaff.value || 0) + (b.hasAttribute('data-calc-inc') ? 1 : -1);
+      inStaff.value = String(Math.max(1, Math.min(20, v)));
+      update();
+    });
+    update();
   }
 
   var y = document.querySelector('[data-year]');
